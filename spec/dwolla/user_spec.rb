@@ -58,7 +58,8 @@ describe Dwolla::User do
                                               :description => description,
                                               :amount => 10,
                                               :type => :send,
-                                              :pin => '2222').and_return(transaction)
+                                              :pin => '2222',
+                                              :funds_source => nil).and_return(transaction)
 
         transaction.should_receive(:execute).and_return(transaction_id)
 
@@ -83,7 +84,8 @@ describe Dwolla::User do
                                               :description => description,
                                               :amount => 10,
                                               :type => :send,
-                                              :pin => '2222').and_return(transaction)
+                                              :pin => '2222',
+                                              :funds_source => nil).and_return(transaction)
 
         transaction.should_receive(:execute).and_return(transaction_id)
 
