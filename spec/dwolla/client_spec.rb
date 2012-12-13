@@ -24,4 +24,13 @@ describe Dwolla::Client do
       user.longitude.should == -93.634167
     end
   end
+
+  describe "create offsite checkout" do
+    let(:order_array) { [OrderItem.new(name: 'Item1', description: 'description1', price: 2.25, quantity: 6)] }
+    let(:cart) { Cart.new(allow_funding_sources: true, destination_id: '812-111-1111', discount: 0.10, tax: 0.00,
+                          shipping: 1.00, total: 3.25, order_items: :order_array) }
+    it 'should return the checkout id of a new session' do
+      subject.create_offsite_checkout(:cart).should eq "C3D4DC4F-5074-44CA-8639-B679D0A70803"
+    end
+  end
 end

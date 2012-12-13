@@ -41,6 +41,11 @@ module Dwolla
         return resp['access_token']
     end
 
+    def create_offsite_checkout(purchase_order)
+      binding.pry
+      post('https://www.dwolla.com/payment/request', purchase_order) 
+    end
+
     private
 
       def auth_params
