@@ -26,11 +26,17 @@ describe Dwolla::Client do
   end
 
   describe "create offsite checkout" do
-    let(:order_array) { [OrderItem.new(name: 'Item1', description: 'description1', price: 2.25, quantity: 6)] }
-    let(:cart) { Cart.new(allow_funding_sources: true, destination_id: '812-111-1111', discount: 0.10, tax: 0.00,
-                          shipping: 1.00, total: 3.25, order_items: :order_array) }
+    let(:order_item) { OrderItem.new({name: 'Item1', description: 'description1', price: 2.25, quantity: 6}) }
+    let(:cart) { Cart.new({allow_funding_sources: true, destination_id: '812-111-1111', discount: 0.10, tax: 0.00,
+                          shipping: 1.00, total: 3.25}) }
+    before do
+      stub_request(:post, "https://www.dwolla.com/payment/request").
+                   to_return(:status => 200,
+                             :body => fixture("offsite_gateway_success_response.json"))
+    end
     it 'should return the checkout id of a new session' do
-      subject.create_offsite_checkout(:cart).should eq "C3D4DC4F-5074-44CA-8639-B679D0A70803"
+      cart.add_order_item(order_item)
+      subject.create_offsite_checkout(cart).should eq "C3D4DC4F-5074-44CA-8639-B679D0A70803"
     end
   end
 end
