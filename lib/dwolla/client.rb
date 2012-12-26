@@ -43,7 +43,7 @@ module Dwolla
 
     def create_offsite_checkout(purchase_order)
       resp = post('https://www.dwolla.com/payment/request', purchase_order.to_hash)
-      return resp['CheckoutId']
+      return 'https://www.dwolla.com/payment/checkout/' + resp['CheckoutId']
     end
 
 
